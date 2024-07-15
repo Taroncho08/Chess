@@ -9,4 +9,5 @@ public:
     
     void getMoves(Board& board) override;
     void set_texture() override;
+    std::unique_ptr<Piece> clone() const override;
 };

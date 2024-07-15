@@ -13,16 +13,46 @@
 #include "Pieces/Pawn.hpp"
 #include "Pieces/Queen.hpp"
 
+#include "Player.hpp"
+
 
 
 class Board {
 public:    
-    Board();
+    Board() : whiteCastle(true), blackCastle(true) {
+        setupBoard();
+    }
+
+    
+    Board(const Board& oth) : whiteCastle(oth.canWhiteCastle()), blackCastle(oth.canBlackCastle()) {
+        m_board = oth.copy();
+    }
+
+    std::array<std::array<std::unique_ptr<Piece>, BoardSize>, BoardSize> copy() const; 
     //~Board();
-    void setPositions();
-    void printPieces(sf::RenderWindow &window, int wondow_size);
-    bool isNull(int x, int y);
-    Piece::Color getColor(int x, int y);
+    void setPosition(Point from, Point to);
+    void printPieces(sf::RenderWindow &window, int wondow_size, int state, Point promotionCoords);
+    void update_moves();
+    bool isNull(Point pos);
+
+    Piece::Color getColor(Point pos) const;
+    Piece::Type getType(Point pos);
+
+    bool hasValidMoves(Player player);
+    bool isInCheck(Player player);
+    bool isInCheckmate(Player player);
+    bool isInStalemate(Player player);
+
+    bool canWhiteCastle() const;
+    void setWhiteCastle(bool val);
+
+    bool canBlackCastle() const;
+    void setBlackCastle(bool val);
+
+    void setCoords(Point point, Point coords);
+
+    void print();
+
     
     friend class Game;
     
@@ -34,5 +64,7 @@ private:
 
 private:
     std::array<std::array<std::unique_ptr<Piece>, BoardSize>, BoardSize> m_board;
+    bool whiteCastle;
+    bool blackCastle;
 
 };

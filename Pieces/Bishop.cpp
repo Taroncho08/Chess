@@ -2,6 +2,8 @@
 #include <iostream>
 
 Bishop::Bishop(int coordX, int coordY, Color col) : Piece{coordX, coordY, col} {
+    m_type = Type::Bishop;
+
     if (m_color == Color::Black) {
         m_path = "../Piece_textures/b_bishop_1x.png";
     }
@@ -34,16 +36,25 @@ void Bishop::getMoves(Board &board) {
 
         while (candidate.isValid()) {
             auto [x, y] = candidate.getCoords();
-            if (!board.isNull(y, x)) {
-                if (board.getColor(x, y) != m_color) {
+
+            if (!board.isNull(Point(x, y))) {
+                if (board.getColor({x, y}) != m_color) {  
                     moves.push_back(candidate);
                 }
                 break;
             }
 
             moves.push_back(candidate);
+            
             candidate += move;
         }
     }
 
-} 
+
+}
+
+
+
+std::unique_ptr<Piece> Bishop::clone() const {
+    return std::make_unique<Bishop>(*this);
+}

@@ -1,6 +1,7 @@
 #include "Queen.hpp"
 
 Queen::Queen(int coordX, int coordY, Color col) : Piece{coordX, coordY, col} {
+    m_type = Type::Queen;
     if (m_color == Color::Black) {
         m_path = "../Piece_textures/b_queen_1x.png";
     }
@@ -36,8 +37,9 @@ void Queen::getMoves(Board &board) {
         while (candidate.isValid()) {
 
             auto [x, y] = candidate.getCoords();
-            if (!board.isNull(y, x)) {
-                if (board.getColor(x, y) != m_color) {
+            if (!board.isNull(Point(x, y))) {
+                if (board.getColor({x, y}) != m_color) {
+                    
                     moves.push_back(candidate);
                 }
                 break;
@@ -53,3 +55,6 @@ void Queen::getMoves(Board &board) {
     // return result;
 }
 
+std::unique_ptr<Piece> Queen::clone() const {
+    return std::make_unique<Queen>(*this);
+}

@@ -1,6 +1,7 @@
 #include "Knight.hpp"
 
 Knight::Knight(int coordX, int coordY, Color col) : Piece{coordX, coordY, col} {
+    m_type = Type::Knight;
     if (m_color == Color::Black) {
         m_path = "../Piece_textures/b_knight_1x.png";
     }
@@ -26,14 +27,13 @@ void Knight::getMoves(Board &board) {
         {1, 2}, {2, 1}, {-1, 2}, {2, -1},
         {-1, -2}, {-2, -1}, {1, -2}, {-2, 1}
     };
-
     for (auto move : possible_dirs) {
         auto candidate = move + Point(m_coordX, m_coordY);
 
         if (candidate.isValid()) {
             auto [x, y] = candidate.getCoords();
-            if (!board.isNull(y, x)) {
-                if (board.getColor(x, y) != m_color) {
+            if (!board.isNull(Point(x, y))) {
+                if (board.getColor({x, y}) != m_color) {
                     moves.push_back(candidate);
                 }
                 continue;
@@ -45,3 +45,6 @@ void Knight::getMoves(Board &board) {
     // return result;
 }
 
+std::unique_ptr<Piece> Knight::clone() const {
+    return std::make_unique<Knight>(*this);
+}

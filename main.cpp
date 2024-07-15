@@ -3,7 +3,9 @@
 #include <iostream>
 
 int main() {
-    Game game(500, 500);
+
+    std::cout << "Hell" << std::endl;
+    Game game(800, 800);
     game.Run();
     
 

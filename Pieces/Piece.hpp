@@ -3,12 +3,14 @@
 #include <utility>
 #include <vector>
 #include <cmath>
+#include <memory>
 #include <SFML/Graphics.hpp>
-
+//#include "../Player.hpp"
 #include "../Constants.hpp"
 #include "../Point.hpp"
 // #include "../Board.hpp"
 
+class Player;
 class Board;
 class Piece {
 public:
@@ -25,16 +27,25 @@ public:
 
     virtual void draw(sf::RenderWindow &window, int window_size);
     virtual void getMoves(Board& board) = 0;
-    bool isValidMove(Point move, Board& board) const;
+    virtual std::unique_ptr<Piece> clone() const = 0;
+    virtual bool isValidMove(Point move, Board& board) const;
+
+    bool isLegalMove(Point move, Board& board) const;
+
+    virtual void move(Board& board, Point to); 
     virtual void set_texture() = 0;
+    virtual bool canCaptureOpponentKing(Board &board, Player player);
 
     void setPosition(Point point);
-    std::pair<int, int> getPosition() const;
+    Point getPosition() const;
 
     void setColor(Color col);
     Color getColor() const;
 
-    const std::vector<Point>& getMoveVector() const;
+    const std::vector<Point> getMoveVector() const;
+
+    Type getType() const;
+    void setType(Type type);
 
 protected:
     std::string m_path;
@@ -43,6 +54,7 @@ protected:
     int m_coordX;
     int m_coordY;
     Color m_color;
+    Type m_type;
 
     std::vector<Point> moves;
 

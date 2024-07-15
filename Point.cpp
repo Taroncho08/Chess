@@ -22,7 +22,7 @@ Point& Point::operator+=(const Point& other) {
     return *this;
 }
 
-bool Point::operator==(const Point& point) {
+bool Point::operator==(const Point& point) const {
     auto[x, y] = point.getCoords();
 
     if (x == m_coordX && y == m_coordY) {

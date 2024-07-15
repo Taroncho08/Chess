@@ -15,7 +15,7 @@ public:
     Point operator-(const Point& mv) const;
     Point& operator+=(const Point& other);
     Point& operator-=(const Point& other);
-    bool operator==(const Point& point);
+    bool operator==(const Point& point) const;
     bool isValid();
 
 private:
