@@ -28,6 +28,10 @@ void Game::Draw() {
                 black_square.setFillColor( {145, 106, 38} );
                 white_square.setFillColor( {145, 106, 38} );
             }
+            if (!board.isNull(Point(j, i)) && board.isInCheck(Player(step)) && board.getType(Point(j, i)) == Piece::Type::King && board.getColor(Point(j, i)) == step) {
+                black_square.setFillColor( {173, 14, 14} );
+                white_square.setFillColor( {173, 14, 14} );
+            }
             if (i % 2 != 0) {
                 if (j % 2 == 0) {   
                     black_square.setPosition(rect_size * j, rect_size * i);
@@ -48,10 +52,9 @@ void Game::Draw() {
                     m_window.draw(white_square);
                 }
             }
-            if (state == 1) {
-                black_square.setFillColor( {81, 42, 42} );
-                white_square.setFillColor( {124, 76, 62} );
-            }
+            black_square.setFillColor( {81, 42, 42} );
+            white_square.setFillColor( {124, 76, 62} );
+            
 
         }
 
