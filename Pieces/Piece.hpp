@@ -31,6 +31,7 @@ public:
     virtual bool isValidMove(Point move, Board& board) const;
 
     bool isLegalMove(Point move, Board& board) const;
+    void addMove(Point move);
 
     virtual void move(Board& board, Point to); 
     virtual void set_texture() = 0;

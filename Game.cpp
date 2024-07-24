@@ -148,12 +148,7 @@ void Game::HandlePromotion(sf::Vector2i mouse_pos) {
         return;
     }
     state = 0;
-    if (step == Piece::Color::White) {
-        step = Piece::Color::Black;
-    }
-    else {
-        step = Piece::Color::White;
-    }
+    changeStep(); 
 
 
 }
@@ -177,7 +172,7 @@ void Game::move(Point pos) {
                 board.m_board[y][x]->move(board, {x_coord, y_coord});
                 ++step_count;
 
-                if (board.m_board[y_coord][x_coord]->getType() == Piece::Type::Pawn && y_coord == 0 || y_coord == 7) {
+                if (board.m_board[y_coord][x_coord]->getType() == Piece::Type::Pawn && (y_coord == 0 || y_coord == 7)) {
                     std::cout << "stateee" << std::endl;
                     state = 2;
                     currentPromotion = Point(x_coord, y_coord);
@@ -186,32 +181,9 @@ void Game::move(Point pos) {
                 }
                 
                 state = 0;
-                if (board.isInCheckmate(whitePlayer)) {
-                    Draw();
-                    onCheckMate(whitePlayer);
-                }
-                else if (board.isInCheckmate(blackPlayer)) {
-                    Draw();
-                    onCheckMate(blackPlayer);
-                }
-
-                if (board.isInStalemate(whitePlayer)) {
-                    Draw();
-                    onStaleMate(whitePlayer);
-                }
-                else if (board.isInStalemate(blackPlayer)) {
-                    Draw();
-                    onStaleMate(blackPlayer);
-                }
- 
-
-                if (step == Piece::Color::White) {
-                    step = Piece::Color::Black;
-                }
-                else {
-                    step = Piece::Color::White;
-                }
-
+                checkCheckMates();
+                checkStaleMates();
+                changeStep();
                 return;
             }
             else {
@@ -241,6 +213,17 @@ void Game::move(Point pos) {
 
 }
 
+void Game::changeStep() {
+    if (step == Piece::Color::White) {
+        step = Piece::Color::Black;
+    }
+    else {
+        step = Piece::Color::White;
+    }
+
+
+}
+
 void Game::setCurrent(Point coord) {
     auto [x_coord, y_coord] = coord.getCoords();
 
@@ -252,6 +235,31 @@ void Game::setCurrent(Point coord) {
         else {
             state = 0;
         }
+    }
+
+}
+
+
+void Game::checkCheckMates() {
+    if (board.isInCheckmate(whitePlayer)) {
+        Draw();
+        onCheckMate(whitePlayer);
+    }
+    else if (board.isInCheckmate(blackPlayer)) {
+        Draw();
+        onCheckMate(blackPlayer);
+    }
+
+}
+
+void Game::checkStaleMates() {
+    if (board.isInStalemate(whitePlayer)) {
+        Draw();
+        onStaleMate(whitePlayer);
+    }
+    else if (board.isInStalemate(blackPlayer)) {
+        Draw();
+        onStaleMate(blackPlayer);
     }
 
 }

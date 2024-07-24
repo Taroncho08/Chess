@@ -20,6 +20,48 @@ void Pawn::set_texture() {
     m_sprite.setTexture(m_texture);
 }
 
+void Pawn::move(Board& board, Point to) {
+
+    board.setPosition({m_coordX, m_coordY}, {to});
+    board.update_moves();
+
+    if (to == Point(m_coordX, m_coordY) + Point(0, 2) || to == Point(m_coordX, m_coordY) - Point(0, 2)) {
+        std::cout << "Yess" << std::endl;
+        if (!board.isNull(to + Point(1, 0)) && board.getType(to + Point(1, 0)) == Piece::Type::Pawn) {
+            if (m_color == Piece::Color::White) {
+                board.addMoveToPiece(to + Point(1, 0), to + Point(0, 1)); 
+            }
+            else {
+                board.addMoveToPiece(to + Point(1, 0), to - Point(0, 1));
+            }
+        }
+        if (!board.isNull(to - Point(1, 0)) && board.getType(to - Point(1, 0)) == Piece::Type::Pawn) {
+            if (!board.isNull(to - Point(1, 0)) && board.getType(to - Point(1, 0)) == Piece::Type::Pawn) {
+                if (m_color == Piece::Color::White) {
+                    board.addMoveToPiece(to - Point(1, 0), to + Point(0, 1)); 
+                }
+                else {
+                    board.addMoveToPiece(to - Point(1, 0), to - Point(0, 1));
+                }
+            }
+
+        }
+    }
+    else {
+        Point res = to - Point(m_coordX, m_coordY);
+        auto [x, y] = res.getCoords();
+        if (std::abs(x) == 1 && std::abs(y) == 1) {
+            if (m_color == Piece::Color::White) {
+                board.setNull(to + Point(0, 1));
+            }
+            else {
+                board.setNull(to - Point(0, 1));
+            }
+        }
+    }
+
+    setPosition(to);
+}
 
 void Pawn::getMoves(Board &board) {
     // std::vector<Point> result;

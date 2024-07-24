@@ -97,6 +97,17 @@ bool Board::isNull(Point pos) {
     return false;
 }
 
+void Board::addMoveToPiece(Point coord, Point move) {
+    auto [x, y] = coord.getCoords();
+    m_board[y][x]->addMove(move);
+}
+
+void Board::setNull(Point pos) {
+    auto [x, y] = pos.getCoords();
+    std::cout << "Null object_x: " << x << " And y: " << y << std::endl;
+    m_board[y][x] = nullptr;
+}
+
 std::array<std::array<std::unique_ptr<Piece>, BoardSize>, BoardSize> Board::copy() const {
 
     std::array<std::array<std::unique_ptr<Piece>, BoardSize>, BoardSize> result;

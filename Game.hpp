@@ -32,12 +32,14 @@ public:
     void move(Point pos);
     void DrawPromotion(Point coord, Piece::Color color);
     void setCurrent(Point coord);
-    void HandlePromotion(sf::Vector2i mpuse_pos);
+    void HandlePromotion(sf::Vector2i mouse_pos);
 
     void onCheckMate(Player player);
     void onStaleMate(Player player);
 
-    
+    void checkCheckMates();
+    void checkStaleMates();
+    void changeStep();
 
 
 private:

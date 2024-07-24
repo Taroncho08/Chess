@@ -31,6 +31,13 @@ void Piece::draw(sf::RenderWindow &window, int window_size) {
     window.draw(m_sprite);
 }
 
+void Piece::addMove(Point move) {
+    if (move.isValid()) {
+        moves.push_back(move);
+    }
+}
+
+
 bool Piece::isLegalMove(Point move, Board& board) const {
     auto [x, y] = move.getCoords();
     Board tmp = board;

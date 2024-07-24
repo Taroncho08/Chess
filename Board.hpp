@@ -43,8 +43,11 @@ public:
     bool isInCheckmate(Player player);
     bool isInStalemate(Player player);
 
+    void addMoveToPiece(Point coord, Point move);
     bool canWhiteCastle() const;
     void setWhiteCastle(bool val);
+
+    void setNull(Point pos);
 
     bool canBlackCastle() const;
     void setBlackCastle(bool val);
