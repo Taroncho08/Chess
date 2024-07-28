@@ -51,9 +51,20 @@ bool Piece::isLegalMove(Point move, Board& board) const {
     return true;
 }
 
+bool Piece::gethasMoved() const {
+    return hasMoved;
+}
+
+void Piece::setMoved(bool val) {
+    hasMoved = val;
+}
+
 void Piece::move(Board& board, Point to) {
     board.setPosition({m_coordX, m_coordY}, {to});
     setPosition(to);
+    if (!gethasMoved()) {
+        setMoved(true);
+    }
     board.update_moves();
 }
 

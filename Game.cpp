@@ -119,9 +119,7 @@ void Game::HandlePromotion(sf::Vector2i mouse_pos) {
     bool flag = 0;
     auto translated_pos = m_window.mapPixelToCoords(mouse_pos);
     for (int i = 0; i < 4; ++i) {
-        std::cout << "for" << std::endl;
         if(sprites[i].getGlobalBounds().contains(translated_pos)) {
-            std::cout << "saasdas" << std::endl;
              switch (i) {
                 case 0:
                     board.m_board[y_coord][x_coord] = std::make_unique<Bishop>(x_coord, y_coord, board.getColor(currentPromotion));
@@ -155,6 +153,8 @@ void Game::HandlePromotion(sf::Vector2i mouse_pos) {
 
 
 }
+
+
 
 void Game::move(Point pos) {
     auto [x_coord, y_coord] = pos.getCoords();

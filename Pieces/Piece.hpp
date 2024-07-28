@@ -23,6 +23,7 @@ public:
         : m_coordX { coordX }
         , m_coordY { coordY }
         , m_color  { col }
+        , hasMoved { false }
     {}
 
     virtual void draw(sf::RenderWindow &window, int window_size);
@@ -43,6 +44,9 @@ public:
     void setColor(Color col);
     Color getColor() const;
 
+    bool gethasMoved() const;
+    void setMoved(bool val);
+
     const std::vector<Point> getMoveVector() const;
 
     Type getType() const;
@@ -56,6 +60,7 @@ protected:
     int m_coordY;
     Color m_color;
     Type m_type;
+    bool hasMoved;
 
     std::vector<Point> moves;
 

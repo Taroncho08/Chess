@@ -71,10 +71,86 @@ void Board::setBlackCastle(bool val) {
 void Board::setupEmpty() {
     for (int i = 2; i < BoardSize - 2; ++i) {
         for (int j = 0; j < BoardSize; ++j) {
-            m_board[i][j] = {nullptr};
+            m_board[i][j] = nullptr;
         }
     }
 }
+
+bool Board::isLeftSideEmpty(Piece::Color color) const {
+    if (color == Piece::Color::Black) {
+        for (int i = 1; i < 4; ++i) {
+            if (m_board[0][i] != nullptr) {
+                return false;
+            }
+        }
+    }
+    else {
+        for (int i = 1; i < 4; ++i) {
+            if (m_board[7][i] != nullptr) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Board::isRightSideEmpty(Piece::Color color) const {
+    if (color == Piece::Color::Black) {
+        for (int i = 5; i < 7; ++i) {
+            if (m_board[0][i] != nullptr) {
+                return false;
+            }
+        }
+    }
+    else {
+        for (int i = 5; i < 7; ++i) {
+            if (m_board[7][i] != nullptr) {
+                return false;
+            }
+        }
+    }
+    return true;
+   
+}
+
+bool Board::canCastleToRight(Piece::Color color) {
+    if (color == Piece::Color::Black) {
+        if ((m_board[0][4] != nullptr && m_board[0][4]->getType() == Piece::Type::King && !m_board[0][4]->gethasMoved())
+                && (m_board[0][7] != nullptr && m_board[0][7]->getType() == Piece::Type::Rook && !m_board[0][7]->gethasMoved())
+                && isRightSideEmpty(color)) {
+            return true;
+        }
+    }
+    else {
+        if ((m_board[7][4] != nullptr && m_board[7][4]->getType() == Piece::Type::King && !m_board[7][4]->gethasMoved())
+                && (m_board[7][7] != nullptr && m_board[7][7]->getType() == Piece::Type::Rook && !m_board[7][7]->gethasMoved())
+                && isRightSideEmpty(color)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool Board::canCastleToLeft(Piece::Color color) {
+    if (color == Piece::Color::Black) {
+        if ((m_board[0][4] != nullptr && m_board[0][4]->getType() == Piece::Type::King && !m_board[0][4]->gethasMoved())
+                && (m_board[0][0] != nullptr && m_board[0][0]->getType() == Piece::Type::Rook && !m_board[0][0]->gethasMoved())
+                && isLeftSideEmpty(color)) {
+            return true;
+        }
+    }
+    else {
+        if ((m_board[7][4] != nullptr && m_board[7][4]->getType() == Piece::Type::King && !m_board[7][4]->gethasMoved())
+                && (m_board[7][0] != nullptr && m_board[7][0]->getType() == Piece::Type::Rook && !m_board[7][0]->gethasMoved())
+                && isLeftSideEmpty(color)) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
 
 void Board::printPieces(sf::RenderWindow &window, int window_size, int state, Point promotionCoords) {
     for (int i = 0; i < BoardSize; ++i) {

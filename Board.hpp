@@ -47,6 +47,9 @@ public:
     bool canWhiteCastle() const;
     void setWhiteCastle(bool val);
 
+    bool isLeftSideEmpty(Piece::Color color) const;
+    bool isRightSideEmpty(Piece::Color color) const;
+
     void setNull(Point pos);
 
     bool canBlackCastle() const;
@@ -55,6 +58,9 @@ public:
     void setCoords(Point point, Point coords);
 
     void print();
+
+    bool canCastleToLeft(Piece::Color color);
+    bool canCastleToRight(Piece::Color color);
 
     
     friend class Game;
